@@ -6,8 +6,17 @@
         elevator.on("idle", function() {
             // let's go to all the floors (or did we forget one?)
             elevator.goToFloor(0);
-            elevator.goToFloor(1);
-            elevator.goToFloor(2);
+        });
+	elevator.on("floor_button_pressed", function(floorNum) {
+	    elevator.goToFloor(floorNum);
+	});
+	floors.forEach(function(floor) {
+	    floor.on('up_button_pressed', function(){
+		elevator.goToFloor(floor.floorNum());
+            });
+	    floor.on('down_button_pressed', function(){
+		elevator.goToFloor(floor.floorNum());
+            });
         });
     },
     update: function(dt, elevators, floors) {
