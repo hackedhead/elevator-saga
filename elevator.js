@@ -7,15 +7,21 @@
             // let's go to all the floors (or did we forget one?)
             elevator.goToFloor(0);
         });
-	elevator.on("floor_button_pressed", function(floorNum) {
-	    elevator.goToFloor(floorNum);
-	});
-	floors.forEach(function(floor) {
-	    floor.on('up_button_pressed', function(){
-		elevator.goToFloor(floor.floorNum());
+        elevator.on("floor_button_pressed", function(floor) {
+            if(!elevator.destinationQueue.includes(floor)){
+                elevator.goToFloor(floor);
+            }
+        });
+        floors.forEach(function(floor) {
+            floor.on('up_button_pressed', function(){
+                if(!elevator.destinationQueue.includes(floor.floorNum())){
+                    elevator.goToFloor(floor.floorNum());
+                }
             });
-	    floor.on('down_button_pressed', function(){
-		elevator.goToFloor(floor.floorNum());
+            floor.on('down_button_pressed', function(){
+                if(!elevator.destinationQueue.includes(floor.floorNum())){
+                    elevator.goToFloor(floor.floorNum());
+                }
             });
         });
     },
